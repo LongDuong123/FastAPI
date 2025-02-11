@@ -1,7 +1,28 @@
-person = {"name": "Alice", "age": 25, "city": "Hanoi"}
+from fastapi import APIRouter
 
-def myfunc():
-    print(person["name"])
+from user.service import service
 
-if __name__ == "__main__":  
-    print("File A đang chạy...")
+router = APIRouter()
+
+@router.post("/login")
+def login():
+    print("...controller...login...")
+    service.login()
+    return
+
+@router.post("/register")
+def register():
+    print("...controller....register...")
+    service.register()
+    return
+
+@router.post("/profile")
+def profile():
+    print("...controller....profile...")
+    service.profile()
+    return
+
+@router.post("/logout")
+def logout():
+    print("...controller....logout...")
+    return

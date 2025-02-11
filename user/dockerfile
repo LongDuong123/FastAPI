@@ -1,0 +1,7 @@
+FROM my-python-base
+
+WORKDIR /app/user
+
+EXPOSE 8080
+
+CMD ["python", "main.py"]

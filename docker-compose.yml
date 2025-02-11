@@ -14,5 +14,17 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  base_image:
+    build:
+      dockerfile: Dockerfile
+    image: my-python-base
+ 
+  user:
+    container_name: fastapi_user
+    build:
+      dockerfile: user/Dockerfile
+    ports:
+      - "8080:8080"
+      
 volumes:
   mysql_data:
