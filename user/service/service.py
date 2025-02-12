@@ -1,16 +1,20 @@
-from user.repository import repository
+from repository import repository
 
-def login():
-    print("...service...login...")
-    repository.get_user()
-    return
+class UserService:
+    def __init__(self, repo: repository.UserRepository):
+        self.repo = repo
+        
+    def login(self):
+        print("...service...login...")
+        self.repo.get_user()
+        return
 
-def register():
-    print("...service...register...")
-    repository.create_user()
-    return
+    def register(self):
+        print("...service...register...")
+        user = self.repo.create_user()
+        return
 
-def profile():
-    print("...service...profile...")
-    repository.update_profile()
-    return
+    def profile(self):
+        print("...service...profile...")
+        user = self.repo.update_profile()
+        return

@@ -5,10 +5,10 @@ services:
     image: mysql:8.0
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
+    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    - MYSQL_DATABASE=${MYSQL_DATABASE}
+    - MYSQL_USER=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -16,13 +16,16 @@ services:
 
   base_image:
     build:
-      dockerfile: Dockerfile
+      dockerfile: infra/base/Dockerfile.base
     image: my-python-base
  
   user:
     container_name: fastapi_user
     build:
       dockerfile: user/Dockerfile
+    depends_on:
+      - base_image
+      - mysql
     ports:
       - "8080:8080"
       
