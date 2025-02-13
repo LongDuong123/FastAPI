@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
-from ...libs.mysql.mysql import MySql
+from libs.mysql.mysql import Base
 
-class User(MySql.base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
