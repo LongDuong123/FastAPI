@@ -1,6 +1,6 @@
-from user.repository.repository import UserRepository
-from user.model.model import *
-from user.model.model_db import User
+from user.repository.user import UserRepository
+from user.model.user import *
+from user.model.schema import User
 
 class UserService:
     def __init__(self, repo: UserRepository):

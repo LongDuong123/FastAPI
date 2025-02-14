@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from user.controller.controller import UserController
-from user.model.model import *
+from user.api.controller import UserController
+from user.model.user import *
 
 def Routers(crtl: UserController):
     Router = APIRouter()

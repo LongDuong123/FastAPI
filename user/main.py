@@ -7,16 +7,17 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from fastapi import FastAPI
 from dotenv import load_dotenv
 
-from user.controller.controller import UserController
-from user.repository.repository import UserRepository
-from user.service.service import UserService
-from user.controller.router import Routers
+from user.api.controller import UserController
+from user.repository.user import UserRepository
+from user.service.user import UserService
+from user.api.router import Routers
 from libs.mysql.mysql import MySql
 
 load_dotenv()
 
-mysql = MySql(os.getenv('MYSQL_USER'), os.getenv('MYSQL_ROOT_PASSWORD'), os.getenv('MYSQL_HOST'), os.getenv('MYSQL_PORT'), os.getenv('MYSQL_DATABASE'))
-repository = UserRepository(mysql)
+database = MySql(os.getenv('MYSQL_USER'), os.getenv('MYSQL_ROOT_PASSWORD'), os.getenv('MYSQL_HOST'), int(os.getenv('MYSQL_PORT')), os.getenv('MYSQL_DATABASE'))
+database.connect()
+repository = UserRepository(database)
 service = UserService(repository)
 controller = UserController(service)
 

@@ -1,6 +1,6 @@
-from user.service.service import UserService
+from user.service.user import UserService
 
-from user.model.model import *
+from user.model.user import *
 
 class UserController:
     def __init__(self, svc: UserService):
