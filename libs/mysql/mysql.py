@@ -9,7 +9,7 @@ class MySql:
         self.session = sessionmaker(bind=self.engine)
 
     def get_session(self):
-        return self.session
+        return self.session()
 
     def get_engine(self):
         return self.engine
@@ -17,9 +17,9 @@ class MySql:
     def connect(self):
         try:
             connection = self.engine.connect()
-            print("Đã kết nối tới cơ sở dữ liệu MySQL")
+            print("Connect MySQL success")
             return connection
         except Exception as e:
-            print("Kết nối MySQL thất bại:", e)
+            print("Connect MySQL failed", e)
             return None
 

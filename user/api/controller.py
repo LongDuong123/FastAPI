@@ -7,16 +7,21 @@ class UserController:
         self.svc = svc
     
     def login(self, user: UserLoginRequest) -> UserLoginResponse:
-        token = self.svc.login(UserLoginRequest)
-        return UserLoginResponse()
+        accessToken = self.svc.login(user)
+
+        return UserLoginResponse(
+            token= accessToken
+        )
 
     def register(self, user: UserRegisterRequest) -> UserRegisterResponse:
-        data = self.svc.register(UserRegisterRequest)
+        accessToken, data = self.svc.register(user)
+        
         return UserRegisterResponse(
+            token= accessToken,
             profile= UserProfile(
                 username= data.username,
                 email= data.email,
-                phone= data.phone,
+                phone= None,
             )
         )
 

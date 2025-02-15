@@ -1,9 +1,10 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class UserProfile(BaseModel):
     username: str
     email: str
-    phone: str
+    phone: Optional[str] = None
 
 class UserRegisterRequest(BaseModel):
     username: str

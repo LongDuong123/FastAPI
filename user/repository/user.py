@@ -1,6 +1,7 @@
 import hashlib
 from libs.mysql.mysql import MySql
 from libs.password.password import Hasher
+from model.schema import User 
 
 class UserRepository:
     def __init__(self, db: MySql):
@@ -9,10 +10,10 @@ class UserRepository:
     def create_user(self, username: str, password: str, email: str):
         hash_password = Hasher.get_password_hash(password)
 
-        add_user = model_py.User(
+        add_user = User(
             username = username,
             email = email,
-            password = hash_password
+            hashed_password = str(hash_password),
         )
 
         session = self.db.get_session()
@@ -22,9 +23,10 @@ class UserRepository:
 
         return add_user
         
-
-    def get_user():
-        print("Get User")
+    def get_user(self , username: str):
+        session = self.db.get_session()
+        user = session.query(User).filter(User.username == username).first()
+        return user
 
     # def update_profile():
     #     print("Update Profile")
