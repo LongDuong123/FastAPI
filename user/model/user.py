@@ -11,9 +11,8 @@ class UserRegisterRequest(BaseModel):
     email: str
     password: str
 
-class UserRegisterResponse(BaseModel):
+class UserRegisterResponse(UserProfile):
     token: str
-    profile: UserProfile
 
 class UserLoginRequest(BaseModel):
     username: str
@@ -21,3 +20,11 @@ class UserLoginRequest(BaseModel):
 
 class UserLoginResponse(BaseModel):
     token: str
+
+class UserUpdateRequest(BaseModel):
+    username: Optional[str] = None
+    password: Optional[str] = None
+    phone: Optional[str] = None
+
+class UserUpdateResponse(UserProfile):
+    pass

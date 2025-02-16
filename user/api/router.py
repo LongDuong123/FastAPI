@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request, HTTPException
 
 from user.api.controller import UserController
 from user.model.user import *
@@ -14,10 +14,13 @@ def Routers(crtl: UserController):
     def register(user: UserRegisterRequest) -> UserRegisterResponse:
         return crtl.register(user)
 
-    # @router.post("/profile")
-    # def profile():
-        
-    #     return
+    @Router.post("/profile")
+    def profile(user: UserUpdateRequest, request: Request) -> UserUpdateResponse:
+        token = request.headers.get("Authorization")
+        if token is None:
+            raise HTTPException(status_code=400, detail="Missing Authorization header")
+            
+        return crtl.profile(user, str(token))
 
     # @router.post("/logout")
     # def logout():

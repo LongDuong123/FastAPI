@@ -28,6 +28,9 @@ services:
       - mysql
     ports:
       - "8080:8080"
+    links:
+      - mysql:mysql
+    restart: always
 
 volumes:
   mysql_data:

@@ -5,7 +5,7 @@ def generate_token(user_id: int, secret: str, algorithm: str, expires_delta: int
     payload = {
         "user_id": user_id,
         "iat": datetime.datetime.utcnow(),
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=expires_delta)
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=expires_delta)
     }
     token = jwt.encode(payload, secret, algorithm=algorithm)
     return token

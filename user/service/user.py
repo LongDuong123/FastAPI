@@ -1,3 +1,5 @@
+import os
+
 from user.repository.user import UserRepository
 from user.model.user import *
 from user.model.schema import User
@@ -17,7 +19,12 @@ class UserService:
             print("Password not match")
             return
 
-        token = generate_token(profile.id, "secret", "HS256", 3600)
+        token = generate_token(
+            profile.id, 
+            os.getenv('SECRET_KEY'), 
+            os.getenv('SECURITY_ALGORITHM'), 
+            int(os.getenv('EXPIRE_MINUTES')))
+
         return token
 
 
@@ -27,10 +34,14 @@ class UserService:
             print("email exited ")
             return
 
-        token = generate_token(profile.id, "secret", "HS256", 3600)
+        token = generate_token(
+            profile.id, 
+            os.getenv('SECRET_KEY'), 
+            os.getenv('SECURITY_ALGORITHM'), 
+            int(os.getenv('EXPIRE_MINUTES')))
+            
         return token, profile
 
-    # def profile(self):
-    #     print("...service...profile...")
-    #     user = self.repo.update_profile()
-    #     return
+    def profile(self, id: str, user: UserUpdateRequest):
+        user = self.repo.update_profile(id, user.username, user.password, user.phone)
+        return user
