@@ -12,6 +12,8 @@ class UserController:
     
     def login(self, user: UserLoginRequest) -> UserLoginResponse:
         accessToken = self.svc.login(user)
+        if accessToken is None:
+            raise HTTPException(status_code=400, detail="Invalid username or password")
 
         return UserLoginResponse(
             token= accessToken
@@ -19,7 +21,9 @@ class UserController:
 
     def register(self, user: UserRegisterRequest) -> UserRegisterResponse:
         accessToken, data = self.svc.register(user)
-        
+        if accessToken is None:
+            raise HTTPException(status_code=400, detail="Failed to create user")
+            
         return UserRegisterResponse(
             token=accessToken,
             username=data.username,
@@ -29,13 +33,16 @@ class UserController:
 
     def profile(self, user: UserUpdateRequest, token: str) -> UserUpdateResponse:
         payload = verify_token(token, os.getenv('SECRET_KEY'), [os.getenv('SECURITY_ALGORITHM')])
-        if payload is None:
-            raise HTTPException(status_code=400, detail="Missing Authorization header")
+        if not payload:
+            raise HTTPException(status_code=401, detail="Missing Authorization header")
 
         id = payload.get('user_id')
-        user = self.svc.profile(id, user)
+        userProfile = self.svc.profile(id, user)
+        if not userProfile:
+            raise HTTPException(status_code=404, detail="Failed to update user profile")
+
         return UserUpdateResponse(
-            username=user.username,
-            email=user.email,
-            phone=user.phone
+            username=userProfile.username,
+            email=userProfile.email,
+            phone=userProfile.phone
         )

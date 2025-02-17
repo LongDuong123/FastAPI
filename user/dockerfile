@@ -1,6 +1,5 @@
 FROM my-python-base
 
-COPY . /app/user
 WORKDIR /app/user
 
 EXPOSE 8080
