@@ -6,7 +6,7 @@ class User(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True)
-    username = Column(String(50))
-    email = Column(String(100), unique=True)
+    username = Column(String(50), unique=True)
+    email = Column(String(50), unique=True)
     hashed_password = Column(String(256))
     phone = Column(String(20), nullable=True)

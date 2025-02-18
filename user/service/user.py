@@ -10,14 +10,12 @@ class UserService:
         self.repo = repo
         
     def login(self, user: UserLoginRequest):
-        profile = self.repo.get_user(user.username)
-        if user is None:
-            print("User not found")
-            return
+        profile = self.repo.get_user(user.username, None)
+        if not profile:
+            return None
 
         if Hasher.verify_password(user.password, profile.hashed_password) == False:
-            print("Password not match")
-            return
+            return None
 
         token = generate_token(
             profile.id, 
@@ -29,10 +27,13 @@ class UserService:
 
 
     def register(self, user: UserRegisterRequest):
+        profile = self.repo.get_user(user.username, user.email)
+        if profile:
+            return None, None
+
         profile = self.repo.create_user(user.username, user.password, user.email)
         if not profile:
-            print("email exited ")
-            return
+            return None, None
 
         token = generate_token(
             profile.id, 
@@ -44,4 +45,7 @@ class UserService:
 
     def profile(self, id: str, user: UserUpdateRequest):
         user = self.repo.update_profile(id, user.username, user.password, user.phone)
+        if not user:
+            return None
+            
         return user
